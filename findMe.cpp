@@ -146,7 +146,7 @@ int SendMessage(AdapterAddress adapter, std::string message)
     }
     else
     {
-        cout << "Sending datagram message...OK" << endl;
+        cout << "Sending datagram message on " << adapter.Address << "...OK" << endl;
     }
 }
 
