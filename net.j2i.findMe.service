@@ -1,0 +1,15 @@
+[Unit]
+Description=Service for broadcasting IP address of headless device
+
+Wants=network.target
+After=syslog.target network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/net.j2i.findMe
+Restart=on-failure
+RestartSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
