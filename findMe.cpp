@@ -152,6 +152,7 @@ int SendMessage(AdapterAddress adapter, std::string message)
 
 std::string WaitForMessage(AdapterAddress address, int port)
 {
+    cout << endl << endl << "Enter WaitForMessage" << endl;
 
     struct sockaddr_in localSock;
     struct ip_mreq group;
@@ -221,8 +222,9 @@ std::string WaitForMessage(AdapterAddress address, int port)
     else
     {
         printf("Reading datagram message...OK.\n");
-        printf("The message from multicast server is: \"%s\"\n", databuf);
+        cout << databuf;        
 
+        /*
         socklen_t len;
         struct sockaddr_storage addr;
         char ipstr[INET6_ADDRSTRLEN];
@@ -237,10 +239,10 @@ std::string WaitForMessage(AdapterAddress address, int port)
             sourcePort = ntohs(s->sin6_port);
             inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof ipstr);
         }
-
-        cout << "source address " << ipstr << "(" << sourcePort << ")" << endl;
-
+        */
+        
     }
+    close(sd);
 }
 
 std::mutex g_listenMutex;

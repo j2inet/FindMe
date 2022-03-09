@@ -8,5 +8,5 @@ project(
 
   
 
-add_executable(findMe findMe.cpp)
-target_link_libraries( findMe pthread )
+add_executable(net.j2i.findMe findMe.cpp)
+target_link_libraries( net.j2i.findMe pthread )
