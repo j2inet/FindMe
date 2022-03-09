@@ -258,7 +258,7 @@ void listenWorker()
 
 int main(int argc, char **argv)
 {
-    bool isBroadcaster = false;
+    bool isBroadcaster = true;
     bool isListener = false;
     for(auto i=0;i<argc;++i)
     {
