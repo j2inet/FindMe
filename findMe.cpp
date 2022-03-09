@@ -31,10 +31,19 @@ struct AdapterAddress
 
 bool AdapterAddressSortCompare(const auto &lhs, const auto &rhs)
 {
+    //Ensure eth is first
     if ((lhs.Adapter.find("eth", 0) != 0) && (rhs.Adapter.find("eth", 0) == 0))
         return false;
     else if ((lhs.Adapter.find("eth", 0) == 0) && (rhs.Adapter.find("eth", 0) != 0))
         return true;
+
+    //Ensure the loop-back adapter is last
+    if ((lhs.Adapter.find("lo", 0) != 0) && (rhs.Adapter.find("lo", 0) == 0))
+        return true;
+    else if ((lhs.Adapter.find("lo", 0) == 0) && (rhs.Adapter.find("lo", 0) != 0))
+        return false;
+
+
     if ((lhs.AddressFamily == AF_INET6) && (rhs.AddressFamily == AF_INET))
         return false;
     else if ((lhs.AddressFamily == AF_INET) && (rhs.AddressFamily == AF_INET6))
