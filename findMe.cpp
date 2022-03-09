@@ -289,8 +289,15 @@ int main(int argc, char **argv)
     
     if(isBroadcaster)
     {
+        cout << "sleeping for 4 minutes" << endl;
+        std::this_thread::sleep_for(std::chrono::seconds(60));
+        cout << "sleeping for 3 minutes" << endl;
+        std::this_thread::sleep_for(std::chrono::seconds(60));
         cout << "sleeping for 2 minutes" << endl;
-        std::this_thread::sleep_for(std::chrono::seconds(120));
+        std::this_thread::sleep_for(std::chrono::seconds(60));
+        cout << "sleeping for 1 minutes" << endl;
+        std::this_thread::sleep_for(std::chrono::seconds(60));
+        
         while(true)
         {
 
