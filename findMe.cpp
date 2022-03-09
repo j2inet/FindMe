@@ -289,7 +289,8 @@ int main(int argc, char **argv)
     
     if(isBroadcaster)
     {
-        std::this_thread::sleep_for(std::chrono::seconds(60));
+        cout << "sleeping for 2 minutes" << endl;
+        std::this_thread::sleep_for(std::chrono::seconds(120));
         while(true)
         {
 
