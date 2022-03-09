@@ -289,6 +289,7 @@ int main(int argc, char **argv)
     
     if(isBroadcaster)
     {
+        std::this_thread::sleep_for(std::chrono::seconds(60));
         while(true)
         {
 
