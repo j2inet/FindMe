@@ -277,15 +277,21 @@ int main(int argc, char **argv)
         }
     }
 
-    auto addressList = getIpAddressList();
-
+    
     if(isBroadcaster)
     {
-        std::stringstream ss;
-        ss << "Hello from " << addressList[0].Address << endl;
-        std::string msg = ss.str();
         while(true)
         {
+
+            //I've found that the ethernet adapter isn't always available at program start. 
+            //thus, I am checking for the available adapters within the loop in case it changes.
+            auto addressList = getIpAddressList();
+            std::stringstream ss;
+            ss << "Hello from " << addressList[0].Address << endl;
+            std::string msg = ss.str();
+
+
+            
             SendMessage(addressList[0], msg);
             std::this_thread::sleep_for(std::chrono::seconds(20));
         }
@@ -293,6 +299,7 @@ int main(int argc, char **argv)
     {
         while(true)
         {
+            auto addressList = getIpAddressList();
             WaitForMessage(addressList[0], 4321);
         }
     }
@@ -302,8 +309,11 @@ int main(int argc, char **argv)
     std::this_thread::sleep_for(std::chrono::seconds(4));
 
     std::stringstream ss;
-    ss << "Hello from " << addressList[0].Address << endl;
-    SendMessage(addressList[0], ss.str());
+    {
+        auto addressList = getIpAddressList();
+        ss << "Hello from " << addressList[0].Address << endl;
+        SendMessage(addressList[0], ss.str());
+    }    
 
     listenThread.join();
 
