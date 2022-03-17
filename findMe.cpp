@@ -20,7 +20,8 @@ using namespace std;
 
 // https://www.tenouk.com/Module41c.html
 
-const char *MULTICAST_ADDRESS = "224.0.0.0";
+const char *MULTICAST_ADDRESS = "239.255.255.250";
+const int MULTICAST_PORT = 1901;
 
 struct AdapterAddress
 {
@@ -133,7 +134,7 @@ int SendMessage(AdapterAddress adapter, std::string message)
     memset((char *)&groupSock, 0, sizeof(groupSock));
     groupSock.sin_family = AF_INET;
     groupSock.sin_addr.s_addr = inet_addr(MULTICAST_ADDRESS);
-    groupSock.sin_port = htons(4321);
+    groupSock.sin_port = htons(MULTICAST_PORT);
 
     localInterface.s_addr = inet_addr(adapter.Address.c_str()); //"203.106.93.94");
     int result;
@@ -194,7 +195,7 @@ std::string WaitForMessage(AdapterAddress address, int port)
     /* specified as INADDR_ANY. */
     memset((char *)&localSock, 0, sizeof(localSock));
     localSock.sin_family = AF_INET;
-    localSock.sin_port = htons(4321);
+    localSock.sin_port = htons(MULTICAST_PORT);
     localSock.sin_addr.s_addr = INADDR_ANY;
     if (bind(sd, (struct sockaddr *)&localSock, sizeof(localSock)))
     {
@@ -222,6 +223,9 @@ std::string WaitForMessage(AdapterAddress address, int port)
         printf("Adding multicast group...OK.\n");
     /* Read from the socket. */
     datalen = sizeof(databuf);
+
+    while(true) 
+    {
     if (read(sd, databuf, datalen) < 0)
     {
         perror("Reading datagram message error");
@@ -251,6 +255,7 @@ std::string WaitForMessage(AdapterAddress address, int port)
         */
         
     }
+   }
     close(sd);
 }
 
@@ -262,7 +267,7 @@ void listenWorker()
     auto addressList = getIpAddressList();
     AdapterAddress adapter = addressList[0];    
     
-    WaitForMessage(adapter,4321);
+    WaitForMessage(adapter,MULTICAST_PORT);
 }
 
 int main(int argc, char **argv)
@@ -289,6 +294,7 @@ int main(int argc, char **argv)
     
     if(isBroadcaster)
     {
+/*
         cout << "sleeping for 4 minutes" << endl;
         std::this_thread::sleep_for(std::chrono::seconds(60));
         cout << "sleeping for 3 minutes" << endl;
@@ -297,7 +303,7 @@ int main(int argc, char **argv)
         std::this_thread::sleep_for(std::chrono::seconds(60));
         cout << "sleeping for 1 minutes" << endl;
         std::this_thread::sleep_for(std::chrono::seconds(60));
-        
+  */      
         while(true)
         {
 
@@ -318,7 +324,7 @@ int main(int argc, char **argv)
         while(true)
         {
             auto addressList = getIpAddressList();
-            WaitForMessage(addressList[0], 4321);
+            WaitForMessage(addressList[0], MULTICAST_PORT);
         }
     }
 
