@@ -21,7 +21,20 @@ using namespace std;
 // https://www.tenouk.com/Module41c.html
 
 const char *MULTICAST_ADDRESS = "239.255.255.250";
-const int MULTICAST_PORT = 1901;
+const int MULTICAST_PORT = 1900;
+
+const char* SSDP_TEMPLATE_STRING = "NOTIFY * HTTP/1.1\r"
+"HOST: 239.255.255.250:1900\r"
+"CACHE-CONTROL: max-age = %d\r"
+"LOCATION: %s\r"
+"NT: upnp:rootdevice\r"
+"NTS: ssdp:alive\r"
+"SERVER: linux/unknown\r"
+"USN: uuid:389c4fac-ab22-11ec-b909-0242ac120002\r"
+"BOOTID.UPNP.ORG: %d\r"
+"CONFIGID.UPNP.ORG: 2\r"
+"SEARCHPORT.UPNP.ORG:";
+
 
 struct AdapterAddress
 {
@@ -30,7 +43,7 @@ struct AdapterAddress
     sa_family_t AddressFamily;
 };
 
-bool AdapterAddressSortCompare(const auto &lhs, const auto &rhs)
+bool AdapterAddressSortCompare(const AdapterAddress &lhs, const AdapterAddress &rhs)
 {
     //Ensure eth is first
     if ((lhs.Adapter.find("eth", 0) != 0) && (rhs.Adapter.find("eth", 0) == 0))
